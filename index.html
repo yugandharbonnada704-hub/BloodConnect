@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BloodConnect – Donate Blood, Save Lives</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" defer></script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     NAVIGATION
+═══════════════════════════════════════════ -->
+<header class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="#home" class="nav-logo">
+      <span class="logo-icon">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+          <path d="M14 3C14 3 4 11.5 4 17.5C4 22.195 8.477 26 14 26C19.523 26 24 22.195 24 17.5C24 11.5 14 3 14 3Z" fill="url(#bloodGrad)"/>
+          <defs>
+            <linearGradient id="bloodGrad" x1="4" y1="3" x2="24" y2="26" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#FF4B6E"/>
+              <stop offset="1" stop-color="#C0152A"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </span>
+      Blood<span>Connect</span>
+    </a>
+
+    <nav class="nav-links" id="navLinks">
+      <a href="#home" class="nav-link active">Home</a>
+      <a href="#search" class="nav-link">Find Donors</a>
+      <a href="#emergency" class="nav-link">Emergency</a>
+      <a href="#camps" class="nav-link">Donation Camps</a>
+      <a href="#about" class="nav-link">About</a>
+      <a href="#contact" class="nav-link">Contact</a>
+    </nav>
+
+    <div class="nav-actions">
+      <button class="btn btn-ghost" onclick="openModal('loginModal')">Login</button>
+      <button class="btn btn-primary" onclick="openModal('registerModal')">Register</button>
+    </div>
+
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <!-- Mobile Drawer -->
+  <div class="mobile-drawer" id="mobileDrawer">
+    <button class="drawer-close" id="drawerClose" aria-label="Close menu">✕</button>
+    <div class="drawer-logo">Blood<span>Connect</span></div>
+    <nav class="drawer-links">
+      <a href="#home" class="drawer-link">Home</a>
+      <a href="#search" class="drawer-link">Find Donors</a>
+      <a href="#emergency" class="drawer-link">Emergency</a>
+      <a href="#camps" class="drawer-link">Donation Camps</a>
+      <a href="#about" class="drawer-link">About</a>
+      <a href="#contact" class="drawer-link">Contact</a>
+    </nav>
+    <div class="drawer-actions">
+      <button class="btn btn-ghost" onclick="openModal('loginModal'); closeMobileDrawer()">Login</button>
+      <button class="btn btn-primary" onclick="openModal('registerModal'); closeMobileDrawer()">Register</button>
+    </div>
+  </div>
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+</header>
+
+
+<!-- ═══════════════════════════════════════════
+     HERO SECTION
+═══════════════════════════════════════════ -->
+<section class="hero" id="home">
+  <div class="hero-bg-shapes">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="shape shape-3"></div>
+  </div>
+
+  <div class="hero-container">
+    <div class="hero-content fade-up">
+      <div class="hero-badge">
+        <span class="pulse-dot"></span>
+        Emergency requests active right now
+      </div>
+      <h1 class="hero-title">
+        Donate Blood,<br/>
+        <span class="gradient-text">Save Lives</span>
+      </h1>
+      <p class="hero-subtitle">
+        Join a network of 50,000+ compassionate donors. One donation can save up to three lives — and someone needs your blood type today.
+      </p>
+      <div class="hero-cta">
+        <button class="btn btn-primary btn-lg ripple" onclick="scrollTo('search')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          Find Donors
+        </button>
+        <button class="btn btn-outline btn-lg" onclick="openModal('registerModal')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          Become a Donor
+        </button>
+      </div>
+
+      <!-- EKG Pulse Line -->
+      <div class="ekg-container">
+        <svg class="ekg-line" viewBox="0 0 600 60" preserveAspectRatio="none">
+          <polyline class="ekg-path" points="0,30 60,30 80,30 90,5 100,55 110,30 130,30 160,30 180,30 190,8 198,52 206,30 230,30 260,30 280,30 290,8 298,52 306,30 330,30 370,30 380,10 388,50 396,30 420,30 460,30 480,30 490,8 498,52 506,30 530,30 600,30"/>
+        </svg>
+        <span class="ekg-label">Live donor network monitoring</span>
+      </div>
+    </div>
+
+    <div class="hero-visual fade-up delay-200">
+      <div class="hero-illustration">
+        <div class="blood-drop-main">
+          <svg viewBox="0 0 200 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M100 20C100 20 20 100 20 155C20 200.77 55.82 230 100 230C144.18 230 180 200.77 180 155C180 100 100 20 100 20Z" fill="url(#mainBloodGrad)" opacity="0.95"/>
+            <path d="M100 60C100 60 55 110 55 145C55 167 75 185 100 185C125 185 145 167 145 145C145 110 100 60 100 60Z" fill="white" opacity="0.15"/>
+            <text x="100" y="155" text-anchor="middle" fill="white" font-family="Playfair Display" font-size="42" font-weight="700">B+</text>
+            <text x="100" y="180" text-anchor="middle" fill="white" font-family="Inter" font-size="11" opacity="0.8">Most Needed</text>
+            <defs>
+              <linearGradient id="mainBloodGrad" x1="20" y1="20" x2="180" y2="230" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#FF4B6E"/>
+                <stop offset="1" stop-color="#8B0000"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+
+        <!-- Floating cards -->
+        <div class="float-card card-top-left">
+          <div class="fc-icon">🩸</div>
+          <div>
+            <div class="fc-value">O−</div>
+            <div class="fc-label">Universal Donor</div>
+          </div>
+        </div>
+        <div class="float-card card-bottom-right">
+          <div class="fc-icon">✅</div>
+          <div>
+            <div class="fc-value">Verified</div>
+            <div class="fc-label">12,840 donors</div>
+          </div>
+        </div>
+        <div class="float-card card-mid-right">
+          <div class="fc-icon">⚡</div>
+          <div>
+            <div class="fc-value">4 min</div>
+            <div class="fc-label">Avg. response</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats Counter Bar -->
+  <div class="stats-bar fade-up delay-400">
+    <div class="stat-item">
+      <div class="stat-number" data-target="52840">0</div>
+      <div class="stat-label">Total Donors</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <div class="stat-number" data-target="38120">0</div>
+      <div class="stat-label">Active Donors</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <div class="stat-number" data-target="124500">0</div>
+      <div class="stat-label">Lives Saved</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <div class="stat-number urgent" data-target="247">0</div>
+      <div class="stat-label">Emergency Requests</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     BLOOD SEARCH MODULE
+═══════════════════════════════════════════ -->
+<section class="section search-section" id="search">
+  <div class="container">
+    <div class="section-header fade-up">
+      <span class="section-eyebrow">Find Help Fast</span>
+      <h2 class="section-title">Search Blood Donors</h2>
+      <p class="section-subtitle">Locate verified donors near you in seconds. Our real-time network is always active.</p>
+    </div>
+
+    <div class="search-card fade-up">
+      <div class="search-filters">
+        <div class="filter-group">
+          <label class="filter-label">Blood Group</label>
+          <select class="filter-select" id="bloodGroupFilter">
+            <option value="">All Groups</option>
+            <option value="A+">A+</option>
+            <option value="A-">A−</option>
+            <option value="B+">B+</option>
+            <option value="B-">B−</option>
+            <option value="O+">O+</option>
+            <option value="O-">O−</option>
+            <option value="AB+">AB+</option>
+            <option value="AB-">AB−</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label class="filter-label">City</label>
+          <select class="filter-select" id="cityFilter">
+            <option value="">All Cities</option>
+            <option value="Mumbai">Mumbai</option>
+            <option value="Delhi">Delhi</option>
+            <option value="Bangalore">Bangalore</option>
+            <option value="Hyderabad">Hyderabad</option>
+            <option value="Chennai">Chennai</option>
+            <option value="Kolkata">Kolkata</option>
+            <option value="Pune">Pune</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label class="filter-label">Availability</label>
+          <select class="filter-select" id="availFilter">
+            <option value="">Any Status</option>
+            <option value="available">Available Now</option>
+            <option value="soon">Available Soon</option>
+          </select>
+        </div>
+        <button class="btn btn-primary search-btn" id="searchBtn" onclick="searchDonors()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          Search
+        </button>
+      </div>
+    </div>
+
+    <div class="donor-results" id="donorResults">
+      <!-- Populated by JS -->
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     EMERGENCY REQUESTS
+═══════════════════════════════════════════ -->
+<section class="section emergency-section" id="emergency">
+  <div class="container">
+    <div class="section-header fade-up">
+      <span class="section-eyebrow emergency-eyebrow">Urgent Need</span>
+      <h2 class="section-title">Emergency Requests</h2>
+      <p class="section-subtitle">These patients need blood right now. Every minute matters.</p>
+    </div>
+
+    <div class="emergency-grid fade-up" id="emergencyGrid">
+      <!-- Populated by JS -->
+    </div>
+
+    <div class="section-action fade-up">
+      <button class="btn btn-danger btn-lg" onclick="openModal('emergencyModal')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        Post Emergency Request
+      </button>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     DONATION CAMPS
+═══════════════════════════════════════════ -->
+<section class="section camps-section" id="camps">
+  <div class="container">
+    <div class="section-header fade-up">
+      <span class="section-eyebrow">Upcoming Events</span>
+      <h2 class="section-title">Donation Camps</h2>
+      <p class="section-subtitle">Join a camp near you and make a direct impact in your community.</p>
+      <div style="margin-top: 24px;">
+        <button class="btn btn-primary btn-sm" onclick="openModal('addCampModal')">+ Register Donation Camp</button>
+      </div>
+    </div>
+
+    <div class="camps-grid fade-up" id="campsGrid">
+      <!-- Populated by JS -->
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     DONOR DASHBOARD (TABBED)
+═══════════════════════════════════════════ -->
+<section class="section dashboard-section" id="dashboard">
+  <div class="container">
+    <div class="section-header fade-up">
+      <span class="section-eyebrow">My Portal</span>
+      <h2 class="section-title">Donor Dashboard</h2>
+    </div>
+
+    <div class="dashboard-tabs fade-up">
+      <button class="tab-btn active" data-tab="overview">Overview</button>
+      <button class="tab-btn" data-tab="history">History</button>
+      <button class="tab-btn" data-tab="achievements">Achievements</button>
+      <button class="tab-btn" data-tab="hospital">Hospital View</button>
+      <button class="tab-btn" data-tab="admin">Admin Panel</button>
+    </div>
+
+    <!-- OVERVIEW TAB -->
+    <div class="tab-content active" id="tab-overview">
+      <div class="dashboard-cards">
+        <div class="dash-card dash-primary fade-up">
+          <div class="dash-icon">🩸</div>
+          <div class="dash-info">
+            <div class="dash-value">8</div>
+            <div class="dash-label">Total Donations</div>
+          </div>
+          <div class="dash-trend up">+2 this year</div>
+        </div>
+        <div class="dash-card fade-up delay-100">
+          <div class="dash-icon">✅</div>
+          <div class="dash-info">
+            <div class="dash-value">Active</div>
+            <div class="dash-label">Availability Status</div>
+          </div>
+          <div class="status-toggle">
+            <label class="toggle-switch">
+              <input type="checkbox" checked id="availToggle">
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+        <div class="dash-card fade-up delay-200">
+          <div class="dash-icon">📨</div>
+          <div class="dash-info">
+            <div class="dash-value">14</div>
+            <div class="dash-label">Requests Received</div>
+          </div>
+          <div class="dash-trend neutral">3 pending</div>
+        </div>
+        <div class="dash-card fade-up delay-300">
+          <div class="dash-icon">❤️</div>
+          <div class="dash-info">
+            <div class="dash-value">24</div>
+            <div class="dash-label">Lives Impacted</div>
+          </div>
+          <div class="dash-trend up">+6 this month</div>
+        </div>
+      </div>
+
+      <!-- Eligibility Tracker -->
+      <div class="eligibility-card fade-up">
+        <div class="elig-left">
+          <div class="elig-badge verified">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            Verified Donor
+          </div>
+          <h3>Eligible to Donate Again</h3>
+          <p>Your next donation window opens in <strong>18 days</strong>. Stay hydrated and maintain a healthy iron level.</p>
+          <div class="eligibility-progress">
+            <div class="ep-bar">
+              <div class="ep-fill" style="width: 73%"></div>
+            </div>
+            <span>73 days since last donation (90 day cooldown)</span>
+          </div>
+        </div>
+        <div class="elig-right">
+          <div class="countdown-circle">
+            <svg viewBox="0 0 120 120">
+              <circle cx="60" cy="60" r="52" fill="none" stroke="#FFE4E8" stroke-width="8"/>
+              <circle cx="60" cy="60" r="52" fill="none" stroke="#C0152A" stroke-width="8"
+                stroke-dasharray="326.73" stroke-dashoffset="88.22" stroke-linecap="round"
+                transform="rotate(-90 60 60)"/>
+            </svg>
+            <div class="countdown-text">
+              <span class="cntd-num">18</span>
+              <span class="cntd-unit">days</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HISTORY TAB -->
+    <div class="tab-content" id="tab-history">
+      <div class="timeline" id="donationTimeline">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+
+    <!-- ACHIEVEMENTS TAB -->
+    <div class="tab-content" id="tab-achievements">
+      <div class="achievements-grid" id="achievementsGrid">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+
+    <!-- HOSPITAL TAB -->
+    <div class="tab-content" id="tab-hospital">
+      <div class="hospital-dash">
+        <div class="hosp-cards">
+          <div class="dash-card fade-up">
+            <div class="dash-icon">🏥</div>
+            <div class="dash-info"><div class="dash-value">23</div><div class="dash-label">Active Requests</div></div>
+          </div>
+          <div class="dash-card fade-up delay-100">
+            <div class="dash-icon">✅</div>
+            <div class="dash-info"><div class="dash-value">156</div><div class="dash-label">Fulfilled</div></div>
+          </div>
+          <div class="dash-card fade-up delay-200">
+            <div class="dash-icon">⏳</div>
+            <div class="dash-info"><div class="dash-value">7</div><div class="dash-label">Pending Match</div></div>
+          </div>
+          <div class="dash-card fade-up delay-300">
+            <div class="dash-icon">🆘</div>
+            <div class="dash-info"><div class="dash-value">3</div><div class="dash-label">Critical</div></div>
+          </div>
+        </div>
+
+        <div class="table-card fade-up">
+          <div class="table-header">
+            <h3>Blood Requirements</h3>
+            <button class="btn btn-primary btn-sm" onclick="openModal('emergencyModal')">+ Post Requirement</button>
+          </div>
+          <div class="table-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Patient</th>
+                  <th>Blood Group</th>
+                  <th>Units</th>
+                  <th>Priority</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="hospitalTableBody">
+                <!-- Populated by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADMIN TAB -->
+    <div class="tab-content" id="tab-admin">
+      <div class="admin-dash">
+        <div class="admin-stats">
+          <div class="dash-card fade-up"><div class="dash-icon">👥</div><div class="dash-info"><div class="dash-value">52,840</div><div class="dash-label">Total Users</div></div></div>
+          <div class="dash-card fade-up delay-100"><div class="dash-icon">✅</div><div class="dash-info"><div class="dash-value">38,120</div><div class="dash-label">Verified Donors</div></div></div>
+          <div class="dash-card fade-up delay-200"><div class="dash-icon">🆘</div><div class="dash-info"><div class="dash-value">247</div><div class="dash-label">Emergency Requests</div></div></div>
+          <div class="dash-card fade-up delay-300"><div class="dash-icon">🩸</div><div class="dash-info"><div class="dash-value">12,480</div><div class="dash-label">Donations Done</div></div></div>
+        </div>
+
+        <!-- Charts -->
+        <div class="charts-grid fade-up">
+          <div class="chart-card">
+            <h3>Blood Group Distribution</h3>
+            <canvas id="bloodGroupChart" height="220"></canvas>
+          </div>
+          <div class="chart-card">
+            <h3>Monthly Donations</h3>
+            <canvas id="monthlyChart" height="220"></canvas>
+          </div>
+          <div class="chart-card">
+            <h3>Request Fulfillment Rate</h3>
+            <canvas id="fulfillmentChart" height="220"></canvas>
+          </div>
+          <div class="chart-card">
+            <h3>Active Donor Trends</h3>
+            <canvas id="trendsChart" height="220"></canvas>
+          </div>
+        </div>
+
+        <!-- User Management Table -->
+        <div class="table-card fade-up">
+          <div class="table-header">
+            <h3>User Management</h3>
+            <div class="table-actions">
+              <input type="text" class="table-search" placeholder="Search users..." id="userSearch" oninput="filterUsers(this.value)">
+              <select class="filter-select" style="width:auto;padding:8px 12px">
+                <option>All Roles</option>
+                <option>Donor</option>
+                <option>Receiver</option>
+                <option>Hospital</option>
+              </select>
+            </div>
+          </div>
+          <div class="table-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Role</th>
+                  <th>Blood Group</th>
+                  <th>City</th>
+                  <th>Status</th>
+                  <th>Joined</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="adminTableBody">
+                <!-- Populated by JS -->
+              </tbody>
+            </table>
+          </div>
+          <div class="pagination" id="pagination">
+            <button class="page-btn active">1</button>
+            <button class="page-btn">2</button>
+            <button class="page-btn">3</button>
+            <span>...</span>
+            <button class="page-btn">12</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     ABOUT SECTION
+═══════════════════════════════════════════ -->
+<section class="section about-section" id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-content fade-up">
+        <span class="section-eyebrow">Our Mission</span>
+        <h2 class="section-title left">Building a World Without Blood Shortage</h2>
+        <p class="about-text">BloodConnect was founded on a simple but powerful belief: no one should die because blood was unavailable. We bridge the gap between donors and recipients using technology, trust, and community.</p>
+        <p class="about-text">Every 2 seconds, someone in India needs blood. A single donation — which takes less than 15 minutes — can save up to 3 lives. With BloodConnect, finding the right donor in an emergency takes less than 4 minutes on average.</p>
+
+        <div class="about-pillars">
+          <div class="pillar">
+            <div class="pillar-icon">🎯</div>
+            <div>
+              <strong>Vision</strong>
+              <p>A verified, real-time donor network accessible to every hospital and patient across India.</p>
+            </div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-icon">🤝</div>
+            <div>
+              <strong>Community</strong>
+              <p>Over 50,000 donors united by one purpose: giving life to strangers, freely and joyfully.</p>
+            </div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-icon">🔒</div>
+            <div>
+              <strong>Trust & Safety</strong>
+              <p>Every donor is verified. Medical history screened. Data encrypted. Dignity protected.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-visual fade-up delay-200">
+        <div class="impact-stats-grid">
+          <div class="impact-card red">
+            <div class="impact-num">50K+</div>
+            <div class="impact-label">Registered Donors</div>
+          </div>
+          <div class="impact-card dark">
+            <div class="impact-num">124K</div>
+            <div class="impact-label">Lives Saved</div>
+          </div>
+          <div class="impact-card light">
+            <div class="impact-num">340+</div>
+            <div class="impact-label">Partner Hospitals</div>
+          </div>
+          <div class="impact-card rose">
+            <div class="impact-num">98%</div>
+            <div class="impact-label">Fulfillment Rate</div>
+          </div>
+        </div>
+
+        <div class="blood-types-showcase">
+          <div class="blood-type-tag">A+</div>
+          <div class="blood-type-tag">A−</div>
+          <div class="blood-type-tag highlight">O−</div>
+          <div class="blood-type-tag">B+</div>
+          <div class="blood-type-tag">B−</div>
+          <div class="blood-type-tag highlight">AB+</div>
+          <div class="blood-type-tag">O+</div>
+          <div class="blood-type-tag">AB−</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     NOTIFICATION CENTER
+═══════════════════════════════════════════ -->
+<div class="notification-center" id="notificationCenter">
+  <div class="notif-header">
+    <span>Notifications</span>
+    <button onclick="toggleNotifCenter()" aria-label="Close">✕</button>
+  </div>
+  <div class="notif-list" id="notifList">
+    <!-- Populated by JS -->
+  </div>
+</div>
+<button class="notif-fab" id="notifFab" onclick="toggleNotifCenter()" aria-label="Open notifications">
+  🔔
+  <span class="notif-badge" id="notifBadge">3</span>
+</button>
+
+
+<!-- ═══════════════════════════════════════════
+     CONTACT SECTION
+═══════════════════════════════════════════ -->
+<section class="section contact-section" id="contact">
+  <div class="container">
+    <div class="section-header fade-up">
+      <span class="section-eyebrow">Reach Us</span>
+      <h2 class="section-title">Contact & Support</h2>
+      <p class="section-subtitle">We're here 24/7 for emergencies. For general inquiries, we respond within 4 hours.</p>
+    </div>
+
+    <div class="contact-grid fade-up">
+      <div class="contact-form-card">
+        <h3>Send a Message</h3>
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" class="form-input" placeholder="Arjun Sharma" />
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" class="form-input" placeholder="arjun@example.com" />
+        </div>
+        <div class="form-group">
+          <label>Subject</label>
+          <select class="form-input">
+            <option>General Inquiry</option>
+            <option>Emergency Support</option>
+            <option>Donor Registration Help</option>
+            <option>Hospital Partnership</option>
+            <option>Technical Issue</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Message</label>
+          <textarea class="form-input" rows="4" placeholder="How can we help you?"></textarea>
+        </div>
+        <button class="btn btn-primary btn-full">Send Message</button>
+      </div>
+
+      <div class="contact-info">
+        <div class="emergency-contact-card">
+          <div class="ec-icon">🆘</div>
+          <div>
+            <strong>Blood Emergency Hotline</strong>
+            <div class="ec-number">1800-BloodConnect</div>
+            <div class="ec-sub">Available 24 hours, 7 days</div>
+          </div>
+        </div>
+
+        <div class="contact-details">
+          <div class="cd-item">
+            <span class="cd-icon">📍</span>
+            <div>
+              <strong>Head Office</strong>
+              <p>BloodConnect Foundation, 14 Health Square, Mumbai 400001</p>
+            </div>
+          </div>
+          <div class="cd-item">
+            <span class="cd-icon">✉️</span>
+            <div>
+              <strong>Email Support</strong>
+              <p>help@bloodconnect.org</p>
+            </div>
+          </div>
+          <div class="cd-item">
+            <span class="cd-icon">📱</span>
+            <div>
+              <strong>WhatsApp</strong>
+              <p>+91 98765 43210</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Map UI -->
+        <div class="map-ui">
+          <div class="map-placeholder">
+            <div class="map-pin">📍</div>
+            <span>BloodConnect HQ</span>
+            <span class="map-city">Mumbai, Maharashtra</span>
+          </div>
+        </div>
+
+        <!-- FAQ -->
+        <div class="faq-section">
+          <h4>Frequently Asked Questions</h4>
+          <div class="faq-list" id="faqList">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-brand">
+      <div class="nav-logo" style="font-size:1.4rem;margin-bottom:12px">
+        <span class="logo-icon">
+          <svg width="22" height="22" viewBox="0 0 28 28" fill="none">
+            <path d="M14 3C14 3 4 11.5 4 17.5C4 22.195 8.477 26 14 26C19.523 26 24 22.195 24 17.5C24 11.5 14 3 14 3Z" fill="url(#bloodGrad2)"/>
+            <defs>
+              <linearGradient id="bloodGrad2" x1="4" y1="3" x2="24" y2="26" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#FF4B6E"/>
+                <stop offset="1" stop-color="#C0152A"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </span>
+        Blood<span style="color:#C0152A">Connect</span>
+      </div>
+      <p class="footer-tagline">Connecting donors, saving lives, building a healthier India.</p>
+      <div class="social-links">
+        <a href="#" class="social-btn" aria-label="Twitter">𝕏</a>
+        <a href="#" class="social-btn" aria-label="Facebook">f</a>
+        <a href="#" class="social-btn" aria-label="Instagram">📷</a>
+        <a href="#" class="social-btn" aria-label="LinkedIn">in</a>
+      </div>
+    </div>
+
+    <div class="footer-links-group">
+      <h5>Platform</h5>
+      <a href="#search">Find Donors</a>
+      <a href="#emergency">Emergency</a>
+      <a href="#camps">Donation Camps</a>
+      <a href="#dashboard">Dashboard</a>
+    </div>
+
+    <div class="footer-links-group">
+      <h5>Organization</h5>
+      <a href="#about">About Us</a>
+      <a href="#contact">Contact</a>
+      <a href="#">Partner With Us</a>
+      <a href="#">Press & Media</a>
+    </div>
+
+    <div class="footer-links-group">
+      <h5>Legal</h5>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+      <a href="#">Cookie Policy</a>
+      <a href="#">Medical Disclaimer</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 BloodConnect Foundation. Built with ❤️ for a healthier India.</span>
+    <span>GDPR Compliant &nbsp;·&nbsp; ISO 27001 Certified</span>
+  </div>
+</footer>
+
+
+<!-- ═══════════════════════════════════════════
+     MODALS
+═══════════════════════════════════════════ -->
+
+<!-- Login Modal -->
+<div class="modal-overlay" id="loginModal">
+  <div class="modal-card">
+    <button class="modal-close" onclick="closeModal('loginModal')">✕</button>
+    <div class="modal-logo">Blood<span>Connect</span></div>
+    <h2 class="modal-title">Welcome Back</h2>
+    <p class="modal-subtitle">Sign in to your account</p>
+
+    <div class="social-login">
+      <button class="social-login-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        Continue with Google
+      </button>
+    </div>
+
+    <div class="divider"><span>or</span></div>
+
+    <div class="form-group">
+      <label>Email Address</label>
+      <input type="email" class="form-input" id="loginEmail" placeholder="your@email.com" />
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <div class="password-field">
+        <input type="password" class="form-input" id="loginPass" placeholder="••••••••" />
+        <button class="pass-toggle" onclick="togglePass('loginPass')" type="button">👁</button>
+      </div>
+    </div>
+    <button class="btn btn-primary btn-full btn-lg" id="loginSubmitBtn">Sign In</button>
+    <p class="modal-footer-text">Don't have an account? <a href="#" onclick="switchModal('loginModal','registerModal')">Register free</a></p>
+  </div>
+</div>
+
+<!-- Register Modal -->
+<div class="modal-overlay" id="registerModal">
+  <div class="modal-card">
+    <button class="modal-close" onclick="closeModal('registerModal')">✕</button>
+    <div class="modal-logo">Blood<span>Connect</span></div>
+    <h2 class="modal-title">Join the Network</h2>
+    <p class="modal-subtitle">Create your free account</p>
+
+    <div class="role-selector">
+      <button class="role-btn active" data-role="donor" onclick="selectRole(this)" id="regRoleBtn">
+        🩸 Donor
+      </button>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>First Name</label>
+        <input type="text" class="form-input" id="regFirstName" placeholder="Arjun" />
+      </div>
+      <div class="form-group">
+        <label>Last Name</label>
+        <input type="text" class="form-input" id="regLastName" placeholder="Sharma" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Email Address</label>
+      <input type="email" class="form-input" id="regEmail" placeholder="your@email.com" />
+    </div>
+    <div class="form-group">
+      <label>Phone Number</label>
+      <input type="tel" class="form-input" id="regPhone" placeholder="+919876543210" />
+    </div>
+    <div class="form-group">
+      <label>Blood Group</label>
+      <select class="form-input" id="regBloodGroup">
+        <option value="">Select blood group</option>
+        <option value="A+">A+</option><option value="A-">A−</option><option value="B+">B+</option><option value="B-">B−</option>
+        <option value="O+">O+</option><option value="O-">O−</option><option value="AB+">AB+</option><option value="AB-">AB−</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <div class="password-field">
+        <input type="password" class="form-input" id="regPass" placeholder="Min. 8 characters" />
+        <button class="pass-toggle" onclick="togglePass('regPass')" type="button">👁</button>
+      </div>
+    </div>
+    <button class="btn btn-primary btn-full btn-lg" id="regSubmitBtn">Create Account</button>
+    <p class="modal-footer-text">Already have an account? <a href="#" onclick="switchModal('registerModal','loginModal')">Sign in</a></p>
+  </div>
+</div>
+
+<!-- Emergency Request Modal -->
+<div class="modal-overlay" id="emergencyModal">
+  <div class="modal-card modal-wide">
+    <button class="modal-close" onclick="closeModal('emergencyModal')">✕</button>
+    <h2 class="modal-title">Post Emergency Request</h2>
+    <p class="modal-subtitle">Fill in patient details — donors will be alerted immediately.</p>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Patient Name</label>
+        <input type="text" class="form-input" placeholder="Patient full name" />
+      </div>
+      <div class="form-group">
+        <label>Blood Group Needed</label>
+        <select class="form-input">
+          <option value="">Select</option>
+          <option>A+</option><option>A−</option><option>B+</option><option>B−</option>
+          <option>O+</option><option>O−</option><option>AB+</option><option>AB−</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Hospital Name</label>
+        <input type="text" class="form-input" placeholder="Hospital name" />
+      </div>
+      <div class="form-group">
+        <label>City</label>
+        <input type="text" class="form-input" placeholder="City" />
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Units Required</label>
+        <input type="number" class="form-input" placeholder="e.g. 2" min="1" />
+      </div>
+      <div class="form-group">
+        <label>Contact Number</label>
+        <input type="tel" class="form-input" placeholder="+91 98765 43210" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Priority Level</label>
+      <div class="priority-selector">
+        <button class="priority-btn critical active" data-p="critical" onclick="selectPriority(this)">🔴 Critical</button>
+        <button class="priority-btn high" data-p="high" onclick="selectPriority(this)">🟠 High</button>
+        <button class="priority-btn normal" data-p="normal" onclick="selectPriority(this)">🟢 Normal</button>
+      </div>
+    </div>
+    <button class="btn btn-danger btn-full btn-lg">🚨 Submit Emergency Request</button>
+  </div>
+</div>
+
+<!-- Add Camp/Event Modal -->
+<div class="modal-overlay" id="addCampModal">
+  <div class="modal-card modal-wide">
+    <button class="modal-close" onclick="closeModal('addCampModal')">✕</button>
+    <h2 class="modal-title">Register Donation Camp</h2>
+    <p class="modal-subtitle">Organizing a blood donation camp? Fill in the details to list it here.</p>
+
+    <form id="addCampForm" onsubmit="handleAddCamp(event)">
+      <div class="form-group">
+        <label>Camp / Event Name</label>
+        <input type="text" class="form-input" id="campName" placeholder="e.g. LifeGive Community Camp 2025" required />
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label>Organizer Name</label>
+          <input type="text" class="form-input" id="campOrganizer" placeholder="e.g. Red Cross Chapter" required />
+        </div>
+        <div class="form-group">
+          <label>Total Capacity (Spots)</label>
+          <input type="number" class="form-input" id="campSpots" placeholder="e.g. 100" min="1" required />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Date</label>
+          <input type="date" class="form-input" id="campDate" required />
+        </div>
+        <div class="form-group">
+          <label>Time / Duration</label>
+          <input type="text" class="form-input" id="campTime" placeholder="e.g. 9:00 AM – 5:00 PM" required />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Venue (Full Address)</label>
+        <input type="text" class="form-input" id="campVenue" placeholder="e.g. Town Hall, Worli, Mumbai" required />
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-full btn-lg">➕ Register Donation Camp</button>
+    </form>
+  </div>
+</div>
+
+</body>
+</html>
