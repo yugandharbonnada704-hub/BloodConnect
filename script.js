@@ -894,7 +894,7 @@ style.textContent = `@keyframes rippleAnim { to { transform: scale(1); opacity: 
 document.head.appendChild(style);
 
 // ── Backend API Integration ──────────────────
-const API_BASE_URL = "http://127.0.0.1:5000/api";
+const API_BASE_URL = "https://bloodconnect-xb9z.onrender.com/api";
 
 function initBackendIntegration() {
   const regSubmitBtn = document.getElementById("regSubmitBtn");
